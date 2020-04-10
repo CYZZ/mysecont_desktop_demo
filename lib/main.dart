@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mysecont_desktop_demo/my_gold/gold_model/gold_network.dart';
+import 'package:mysecont_desktop_demo/util_widget/candle_stick.dart';
+import 'my_gold/gold_model/goldmodel.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,10 +54,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  GoldModel _model;
+  bool _active = false;
 
   void _incrementCounter() {
     GoldNetWork.getGoldValue((data) {
       print("网络请求结果在main中收到data = $data");
+      setState(() {
+        _model = data;
+      });
     });
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -64,6 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  void _handleTap() {
+    setState(() {
+      _active = !_active;
     });
   }
 
@@ -101,6 +114,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            CustomPaint(
+              painter: CandleStick(
+                  _model?.data?.mostHigh ?? 0,
+                  _model?.data?.mostLow ?? 0,
+                  _model?.data?.close ?? 0,
+                  _model?.data?.open ?? 0),
+              size: Size(30, 100),
+            ),
             Text(
               'You have pushed the button this many times:',
             ),
@@ -108,6 +129,21 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            GestureDetector(
+              onTap: _handleTap,
+              child: Container(
+                child: Center(
+                  child: Text(
+                    _active ? 'Active' : 'Inactive',
+                    style: TextStyle(fontSize: 30, color: Colors.white),
+                  ),
+                ),
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                    color: _active ? Colors.lightGreen[700] : Colors.grey[600]),
+              ),
+            )
           ],
         ),
       ),
