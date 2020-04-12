@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mysecont_desktop_demo/my_gold/gold_model/gold_network.dart';
 import 'package:mysecont_desktop_demo/util_widget/candle_stick.dart';
+import 'package:mysecont_desktop_demo/zhentong_futures/zhentong_page.dart';
 import 'my_gold/gold_model/goldmodel.dart';
+import 'zhentong_futures/model/business_network.dart';
 
 void main() {
   runApp(MyApp());
@@ -64,6 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
         _model = data;
       });
     });
+    BusinessNetwork.getGoldValue((data) {
+      print("获取到的振数据=$data");
+    });
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -78,6 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _active = !_active;
     });
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ZhenTongPage(),
+      ),
+    );
   }
 
   @override
