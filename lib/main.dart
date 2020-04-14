@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mysecont_desktop_demo/baseUI/my_base_page.dart';
 import 'package:mysecont_desktop_demo/my_gold/gold_model/gold_network.dart';
 import 'package:mysecont_desktop_demo/util_widget/candle_stick.dart';
 import 'package:mysecont_desktop_demo/zhentong_futures/zhentong_page.dart';
@@ -58,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   GoldModel _model;
   bool _active = false;
+  bool _checkBoxValue = false;
 
   void _incrementCounter() {
     GoldNetWork.getGoldValue((data) {
@@ -65,9 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _model = data;
       });
-    });
-    BusinessNetwork.getGoldValue((data) {
-      print("获取到的振数据=$data");
     });
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -153,7 +152,57 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: BoxDecoration(
                     color: _active ? Colors.lightGreen[700] : Colors.grey[600]),
               ),
-            )
+            ),
+            TextField(
+              autofocus: true,
+              decoration: InputDecoration(
+                labelText: "用户名",
+                hintText: "请输入用户名或者手机号",
+                prefixIcon: Icon(Icons.person),
+              ),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: "密码",
+                hintText: "您的登录密码",
+                prefixIcon: Icon(Icons.lock),
+              ),
+            ),
+            RaisedButton(
+              child: Text("normal"),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MyBasePage(),
+                  ),
+                );
+              },
+            ),
+            FlatButton(
+              onPressed: () {},
+              child: Text("normal"),
+            ),
+            OutlineButton(
+              onPressed: () {},
+              child: Text("outLineButton"),
+            ),
+            IconButton(
+              icon: Icon(Icons.timer),
+              onPressed: () {},
+            ),
+            RaisedButton.icon(
+                onPressed: () {},
+                icon: Icon(Icons.map),
+                label: Text("raiseicon")),
+            Checkbox(
+              value: _checkBoxValue,
+              onChanged: (value) {
+                setState(() {
+                  _checkBoxValue = value;
+                });
+                print("当前的value=$value");
+              },
+            ),
           ],
         ),
       ),
