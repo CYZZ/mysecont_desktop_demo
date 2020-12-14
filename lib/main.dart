@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mysecont_desktop_demo/Practice/Calculation/calculate_page.dart';
 import 'package:mysecont_desktop_demo/baseUI/my_base_page.dart';
+import 'package:mysecont_desktop_demo/main.route.dart';
 import 'package:mysecont_desktop_demo/my_gold/gold_model/gold_network.dart';
 import 'package:mysecont_desktop_demo/util_widget/candle_stick.dart';
 import 'package:mysecont_desktop_demo/zhentong_futures/zhentong_page.dart';
+import 'package:route_annotation/route_annotation.dart';
 import 'my_gold/gold_model/goldmodel.dart';
 import 'zhentong_futures/model/business_network.dart';
 
@@ -10,11 +13,14 @@ void main() {
   runApp(MyApp());
 }
 
+@router
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: "/",
+      onGenerateRoute: onGenerateRoute,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -169,18 +175,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             RaisedButton(
-              child: Text("normal"),
+              child: Text("算数练习"),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => MyBasePage(),
+                    builder: (context) => CalculatePage(),
                   ),
                 );
               },
             ),
             FlatButton(
-              onPressed: () {},
-              child: Text("normal"),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  ROUTE_MEMORY_PAGE,
+                  arguments: {
+                    "title": "记录的标题",
+                    "subTitle": "副标题进行描述",
+                  },
+                );
+                // RouteParameter("title"), RouteParameter("subTitle")]
+              },
+              child: Text("打开记录页面"),
             ),
             OutlineButton(
               onPressed: () {},
